@@ -2,1169 +2,763 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LensAI – Ensaios Fotográficos com Inteligência Artificial</title>
-  <meta name="description"
-    content="Transforme uma foto simples em um ensaio fotográfico profissional com IA. Por apenas R$19,90.">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  
-  <!-- High-End UI Libraries -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css"/>
-  <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
-  <style>
-    :root {
-      --primary: #10B981;
-      /* Esmeralda Vibrante */
-      --primary-light: #34D399;
-      --primary-dark: #059669;
-      --bg: #121212;
-      --bg2: #1A1A1A;
-      --bg3: #222222;
-      --text: #F0F0F0;
-      --muted: #888;
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-    }
-
-    /* ── HEADER ── */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(18, 18, 18, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: var(--primary);
-      letter-spacing: 2px;
-    }
-
-    .header-cta {
-      background: var(--primary);
-      color: #fff;
-      padding: .5rem 1.25rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: .85rem;
-      transition: background .2s;
-    }
-
-    .header-cta:hover {
-      background: var(--primary-light);
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 8rem 1.5rem 4rem;
-      background: radial-gradient(ellipse at 50% 30%, rgba(16, 185, 129, 0.12) 0%, transparent 70%), var(--bg);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      /* Updated inline SVG with #10B981 */
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310B981' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-
-    .badge {
-      display: inline-block;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: var(--primary);
-      padding: .35rem 1rem;
-      border-radius: 50px;
-      font-size: .8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      line-height: 1.15;
-      max-width: 800px;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--primary);
-    }
-
-    .hero p {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 540px;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-price {
-      font-size: 1rem;
-      color: var(--muted);
-      margin-bottom: .5rem;
-    }
-
-    .hero-price strong {
-      color: var(--primary);
-      font-size: 2rem;
-    }
-
-    .scroll-indicator {
-      margin-top: 3rem;
-      animation: bounce 2s infinite;
-    }
-
-    .scroll-indicator span {
-      display: block;
-      width: 24px;
-      height: 24px;
-      border-right: 2px solid var(--primary);
-      border-bottom: 2px solid var(--primary);
-      transform: rotate(45deg);
-      margin: auto;
-    }
-
-    @keyframes bounce {
-
-      0%,
-      100% {
-        transform: translateY(0)
-      }
-
-      50% {
-        transform: translateY(8px)
-      }
-    }
-
-    /* ── SECTION TITLE ── */
-    .section {
-      padding: 6rem 1.5rem;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .section-title h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      margin-bottom: .75rem;
-    }
-
-    .section-title h2 span {
-      color: var(--primary);
-    }
-
-    .section-title p {
-      color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .primary-line {
-      width: 60px;
-      height: 2px;
-      background: var(--primary);
-      margin: 1rem auto;
-    }
-
-    /* ── PORTFOLIO ── */
-    .portfolio {
-      background: var(--bg2);
-    }
-
-    .portfolio-grid-wrapper {
-      overflow-x: auto;
-      white-space: nowrap;
-      width: 100vw;
-      position: relative;
-      left: 50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-      padding: 1rem 0 2rem 0;
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary) var(--bg3);
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .portfolio-grid-wrapper::-webkit-scrollbar {
-      height: 6px;
-    }
-    .portfolio-grid-wrapper::-webkit-scrollbar-track {
-      background: var(--bg3);
-      border-radius: 4px;
-    }
-    .portfolio-grid-wrapper::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-
-    .portfolio-grid {
-      display: inline-flex;
-      gap: 1.5rem;
-      padding: 0 1.5rem;
-    }
-
-    .card {
-      flex: 0 0 250px;
-      white-space: normal;
-      background: var(--bg3);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(16, 185, 129, 0.15);
-      transition: transform .3s, border-color .3s, box-shadow .3s;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(16, 185, 129, 0.5);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .card-images {
-      position: relative;
-      height: 300px;
-    }
-
-    .card-images img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-body {
-      padding: 1.25rem;
-    }
-
-    .card-body h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      margin-bottom: .35rem;
-    }
-
-    .card-body p {
-      color: var(--muted);
-      font-size: .85rem;
-    }
-
-    .card-tag {
-      display: inline-block;
-      margin-top: .75rem;
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--primary);
-      font-size: .75rem;
-      padding: .2rem .75rem;
-      border-radius: 50px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    /* ── FORM ── */
-    .form-section {
-      background: var(--bg);
-    }
-
-    .form-wrapper {
-      max-width: 640px;
-      margin: 0 auto;
-      background: rgba(34, 34, 34, 0.7);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      border-radius: 16px;
-      padding: 2.5rem;
-      box-shadow: 0 0 60px rgba(16, 185, 129, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.02);
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: .85rem;
-      font-weight: 500;
-      margin-bottom: .5rem;
-      color: var(--primary);
-      letter-spacing: .5px;
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: .85rem 1rem;
-      background: var(--bg3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      transition: border-color .2s, box-shadow .2s;
-      outline: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-    }
-
-    .form-group select option {
-      background: var(--bg3);
-    }
-
-    .upload-area {
-      border: 2px dashed rgba(16, 185, 129, 0.35);
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color .2s, background .2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .upload-area:hover {
-      border-color: var(--primary);
-      background: rgba(16, 185, 129, 0.04);
-    }
-
-    /* ── SCANNER EFFECT ── */
-    .scanner-laser {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--primary);
-      box-shadow: 0 0 15px 3px var(--primary);
-      opacity: 0;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .scanner-laser.active {
-      opacity: 0.8;
-      animation: scan 2s linear infinite;
-    }
-
-    @keyframes scan {
-      0% { top: 0; }
-      50% { top: 100%; }
-      100% { top: 0; }
-    }
-
-    .upload-area input[type=file] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
-
-    .upload-icon {
-      font-size: 2.5rem;
-      margin-bottom: .5rem;
-      color: var(--primary);
-    }
-
-    .upload-icon i {
-      font-size: 2.5rem;
-    }
-
-    .form-group label i {
-      margin-right: .35rem;
-      vertical-align: -2px;
-      color: var(--primary);
-    }
-
-    /* ── THEME SELECTOR ── */
-    .theme-selector {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-      margin-top: 0.5rem;
-    }
-
-    .theme-option {
-      background: var(--theme-bg);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 1rem 0.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      user-select: none;
-    }
-
-    .theme-option i {
-      font-size: 2rem;
-      color: var(--theme-color);
-      transition: all 0.2s;
-    }
-
-    .theme-option span {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text);
-      transition: color 0.2s;
-    }
-
-    .theme-option:hover {
-      border-color: var(--theme-color);
-      transform: translateY(-2px);
-    }
-
-    .theme-option.selected {
-      background: var(--theme-color);
-      border-color: var(--theme-color);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      transform: translateY(-2px);
-    }
-    
-    .theme-option.selected i,
-    .theme-option.selected span {
-      color: #ffffff;
-    }
-
-    /* ── PIX AREA ── */
-    #pix-area {
-      display: none;
-      margin-top: 2rem;
-      background: var(--bg3);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      animation: fadeIn .4s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    #pix-area h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      margin-bottom: .4rem;
-      color: var(--primary);
-    }
-
-    #pix-area p {
-      color: var(--muted);
-      font-size: .88rem;
-      margin-bottom: 1.25rem;
-    }
-
-    #pix-qr {
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
-      border: 3px solid var(--primary);
-      margin: 0 auto 1.25rem;
-      display: block;
-      background: #fff;
-    }
-
-    .pix-copy-row {
-      display: flex;
-      gap: .5rem;
-      align-items: center;
-    }
-
-    #pix-copia-cola {
-      flex: 1;
-      padding: .75rem 1rem;
-      background: var(--bg2);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: .82rem;
-      font-family: 'Inter', monospace;
-      cursor: text;
-      outline: none;
-    }
-
-    #btn-copiar-pix {
-      padding: .75rem 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--primary);
-      background: transparent;
-      color: var(--primary);
-      cursor: pointer;
-      transition: background .2s, color .2s;
-      font-size: .9rem;
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      white-space: nowrap;
-    }
-
-    #btn-copiar-pix:hover {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    #btn-copiar-pix.copied {
-      background: #10B981;
-      border-color: #10B981;
-      color: #fff;
-    }
-
-    .pix-note {
-      margin-top: 1rem;
-      font-size: .78rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .35rem;
-    }
-
-    .upload-area p {
-      color: var(--muted);
-      font-size: .9rem;
-    }
-
-    .upload-area strong {
-      color: var(--primary);
-    }
-
-    .upload-preview {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 12px;
-      display: none;
-      z-index: 5;
-    }
-
-    .file-info {
-      font-size: .78rem;
-      color: var(--muted);
-      margin-top: .4rem;
-      text-align: center;
-    }
-
-    .btn-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .btn {
-      padding: 1rem;
-      border-radius: 8px;
-      font-size: .95rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: all .2s;
-      letter-spacing: .5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .5rem;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--primary-light), var(--primary));
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn-whatsapp {
-      background: #25D366;
-      color: #fff;
-    }
-
-    .btn-whatsapp:hover {
-      background: #1ebe5d;
-      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    /* Loading overlay */
-    #loading-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(4px);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-
-    #loading-overlay.active {
-      display: flex;
-    }
-
-    .spinner {
-      width: 60px;
-      height: 60px;
-      border: 3px solid rgba(16, 185, 129, 0.2);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    #loading-overlay p {
-      color: var(--primary);
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--bg2);
-      border-top: 1px solid rgba(16, 185, 129, 0.15);
-      padding: 2rem 1.5rem;
-      text-align: center;
-    }
-
-    footer p {
-      color: var(--muted);
-      font-size: .85rem;
-    }
-
-    footer a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media(max-width: 580px) {
-      .btn-row {
-        grid-template-columns: 1fr;
-      }
-
-      .form-wrapper {
-        padding: 1.5rem;
-      }
-
-      header {
-        padding: .75rem 1rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Gisele ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0505;
+            color: #ffffff;
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3,
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-panel {
+            background: rgba(20, 5, 5, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 50, 50, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-romantic {
+            background: linear-gradient(135deg, #cc0000, #800000);
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-romantic:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(204, 0, 0, 0.5);
+        }
+
+        .btn-romantic:active {
+            transform: translateY(1px);
+        }
+
+        .section-locked {
+            opacity: 0.1;
+            pointer-events: none;
+            filter: blur(4px);
+            transition: all 1s ease-in-out;
+        }
+
+        .section-unlocked {
+            opacity: 1;
+            pointer-events: auto;
+            filter: blur(0);
+        }
+
+        /* Heart Background animation */
+        .bg-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background-image: radial-gradient(circle at 50% 50%, #2a0808 0%, #0c0505 80%);
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 0, 51, 0.05);
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            to {
+                transform: translateY(-20vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .carousel-img {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .carousel-img.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="relative min-h-screen flex flex-col items-center">
 
-  <!-- LOADING OVERLAY -->
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-    <p>Gerando seu pagamento seguro...</p>
-  </div>
+    <div class="bg-hearts" id="hearts-container"></div>
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo"><i class="ph ph-sparkle" style="margin-right:4px;"></i>LensAI</div>
-    <a href="#form" class="header-cta">Criar Meu Ensaio →</a>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="badge"><i class="ph ph-magic-wand"></i> Powered by Artificial Intelligence</div>
-    <h1>Seu Ensaio Fotográfico <em>Profissional</em> em Minutos</h1>
-    <p>Envie uma foto simples do seu rosto e nossa IA transforma em um ensaio de estúdio deslumbrante — sem câmera, sem
-      fotógrafo, sem complicação.</p>
-    <p class="hero-price">Apenas <strong>R$ 19,90</strong> por ensaio completo</p>
-    <a href="#form" class="btn btn-primary"
-      style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;padding:1rem 2rem;border-radius:8px;margin-top:1rem;">
-      <i class="ph ph-sparkle"></i> Criar Meu Ensaio Agora
-    </a>
-    <div class="scroll-indicator"><span></span></div>
-  </section>
-
-  <!-- PORTFOLIO -->
-  <section class="section portfolio" id="portfolio">
-    <div class="section-title" data-aos="fade-up">
-      <h2>Estúdio <span>LensAI</span></h2>
-      <div class="primary-line"></div>
-      <p>Resultados de altíssima qualidade gerados pela nossa inteligência artificial</p>
-    </div>
-    
-    <div class="portfolio-grid-wrapper">
-      <div class="portfolio-grid">
-
-        <!-- Card 1 -->
-        <div class="card">
-          <div class="card-images">
-            <img src="https://placehold.co/320x380/0B281B/10B981?text=Resultado+Final" alt="Foto profissional IA">
-          </div>
-          <div class="card-body">
-            <h3>Ensaio de Aniversário</h3>
-            <span class="card-tag"><i class="ph ph-cake"></i> Aniversário</span>
-          </div>
+    <!-- GLOBAL MODAL (Pop-up) -->
+    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div class="glass-panel p-8 rounded-3xl max-w-sm w-full text-center transform scale-95 opacity-0 transition-all duration-300 border border-red-500/30"
+            id="modal-content">
+            <h3 id="modal-title" class="text-2xl serif italic mb-3">Título</h3>
+            <p id="modal-text" class="text-gray-300 mb-8 font-light text-sm md:text-base leading-relaxed">Mensagem</p>
+            <button onclick="closeModal()"
+                class="w-full py-3 rounded-full btn-romantic text-white text-sm uppercase tracking-widest font-bold">Continuar</button>
         </div>
-
-        <!-- Card 2 -->
-        <div class="card">
-          <div class="card-images">
-            <img src="https://placehold.co/320x380/0d1f18/10B981?text=Resultado+Final" alt="Foto ensaio gestante IA">
-          </div>
-          <div class="card-body">
-            <h3>Ensaio de Gravidez</h3>
-            <span class="card-tag"><i class="ph ph-baby"></i> Gravidez</span>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="card">
-          <div class="card-images">
-            <img src="https://placehold.co/320x380/0e2118/10B981?text=Resultado+Final" alt="Foto profissional">
-          </div>
-          <div class="card-body">
-            <h3>Ensaio Profissional</h3>
-            <span class="card-tag"><i class="ph ph-briefcase"></i> Profissional</span>
-          </div>
-        </div>
-        
-        <!-- Duplicated Cards for infinite scroll loop -->
-        <div class="card">
-          <div class="card-images">
-            <img src="https://placehold.co/320x380/0B281B/10B981?text=Resultado+Final" alt="Foto profissional IA">
-          </div>
-          <div class="card-body">
-            <h3>Ensaio de Aniversário</h3>
-            <span class="card-tag"><i class="ph ph-cake"></i> Aniversário</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-images">
-            <img src="https://placehold.co/320x380/0d1f18/10B981?text=Resultado+Final" alt="Foto ensaio gestante IA">
-          </div>
-          <div class="card-body">
-            <h3>Ensaio de Gravidez</h3>
-            <span class="card-tag"><i class="ph ph-baby"></i> Gravidez</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-images">
-            <img src="https://placehold.co/320x380/0e2118/10B981?text=Resultado+Final" alt="Foto profissional">
-          </div>
-          <div class="card-body">
-            <h3>Ensaio Profissional</h3>
-            <span class="card-tag"><i class="ph ph-briefcase"></i> Profissional</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- FORM -->
-  <section class="section form-section" id="form">
-    <div class="section-title" data-aos="fade-up">
-      <h2>Crie <span>Seu Ensaio</span></h2>
-      <div class="primary-line"></div>
-      <p>Preencha o formulário abaixo e receba seu ensaio exclusivo por apenas R$ 19,90</p>
     </div>
 
-    <div class="form-wrapper" data-aos="fade-up" data-aos-delay="100">
-      <form id="ensaio-form" novalidate>
+    <!-- VOUCHER MODAL (Pop-up de Agendamento) -->
+    <div id="voucher-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div class="glass-panel p-8 rounded-3xl max-w-sm w-full text-center transform scale-95 opacity-0 transition-all duration-300 border border-red-500/30"
+            id="voucher-content">
+            <h3 id="v-title" class="text-2xl serif italic mb-2 text-red-500">Agendar Vale</h3>
+            <p id="v-desc" class="text-gray-400 text-xs mb-6 uppercase tracking-widest">Detalhes do vale</p>
 
-        <div class="form-group">
-          <label for="foto-upload"><i class="ph ph-camera"></i> Sua Foto (rosto de frente, boa iluminação)</label>
-          <div class="upload-area" id="upload-area">
-            <div id="scanner-laser" class="scanner-laser"></div>
-            <input type="file" id="foto-upload" name="foto" accept="image/jpeg,image/png,image/webp" required>
-            <div class="upload-icon"><i class="ph ph-upload-simple"></i></div>
-            <p><strong>Arraste ou clique</strong> para enviar sua foto</p>
-            <p>JPG, PNG ou WEBP · Máx. 2MB</p>
-            <img id="upload-preview" class="upload-preview" alt="Prévia da sua foto">
-          </div>
-          <p class="file-info" id="file-info"></p>
-        </div>
+            <label class="block text-left text-sm text-gray-300 mb-2">Para quando vamos agendar?</label>
+            <input type="date" id="v-date" style="color-scheme: dark;"
+                class="w-full bg-black/50 border border-red-900/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 mb-6 uppercase tracking-widest text-sm">
 
-        <div class="form-group">
-          <label><i class="ph ph-palette"></i> Tema do Ensaio</label>
-          <div class="theme-selector" id="theme-selector">
-            <div class="theme-option" data-value="Aniversário" style="--theme-color: #f59e0b; --theme-bg: rgba(245, 158, 11, 0.08);">
-              <i class="ph ph-cake"></i>
-              <span>Aniversário</span>
+            <div class="flex gap-4">
+                <button onclick="closeVoucherModal()"
+                    class="w-1/2 py-3 rounded-full border border-gray-600 text-gray-300 hover:bg-gray-800 transition-colors text-xs uppercase tracking-widest font-bold">Cancelar</button>
+                <button onclick="confirmVoucher()"
+                    class="w-1/2 py-3 rounded-full btn-romantic text-white text-xs uppercase tracking-widest font-bold">Resgatar</button>
             </div>
-            <div class="theme-option" data-value="Gravidez" style="--theme-color: #ec4899; --theme-bg: rgba(236, 72, 153, 0.08);">
-              <i class="ph ph-baby"></i>
-              <span>Maternidade</span>
-            </div>
-            <div class="theme-option" data-value="Profissional" style="--theme-color: #3b82f6; --theme-bg: rgba(59, 130, 246, 0.08);">
-              <i class="ph ph-briefcase"></i>
-              <span>Profissional</span>
-            </div>
-            <div class="theme-option" data-value="Outro" style="--theme-color: #8b5cf6; --theme-bg: rgba(139, 92, 246, 0.08);">
-              <i class="ph ph-sparkle"></i>
-              <span>Tema Livre</span>
-            </div>
-          </div>
-          <input type="hidden" id="tema-select" name="tema" required>
         </div>
-
-        <div class="form-group" id="custom-tema-group" style="display:none;">
-          <label for="tema-custom-input"><i class="ph ph-magic-wand"></i> Descreva o seu cenário dos sonhos</label>
-          <input type="text" id="tema-custom-input" placeholder="Ex: Guerreiro Viking, Fada numa floresta, Chef de Cozinha..." autocomplete="off">
-          <p style="font-size:0.78rem; color:var(--muted); margin-top:.4rem;"><i class="ph ph-sparkle"></i> A IA vai transformar sua ideia em fotos cinematográficas!</p>
-        </div>
-
-        <div class="form-group">
-          <label for="nome-input"><i class="ph ph-user"></i> Seu Nome Completo</label>
-          <input type="text" id="nome-input" name="nome" placeholder="Como devemos te chamar?" required>
-        </div>
-
-        <div class="form-group">
-          <label for="email-input"><i class="ph ph-envelope-simple"></i> Seu E-mail (Onde receberá as fotos)</label>
-          <input type="email" id="email-input" name="email" placeholder="seu.email@exemplo.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="whatsapp-input"><i class="ph ph-whatsapp-logo"></i> Seu WhatsApp <span
-              style="font-size:0.75rem; color:var(--muted); font-weight:normal;">(Opcional - Avisos via
-              celular)</span></label>
-          <input type="tel" id="whatsapp-input" name="whatsapp" placeholder="(11) 99999-9999">
-        </div>
-
-        <div class="btn-row" id="btn-row">
-          <button type="button" class="btn btn-primary" id="btn-web">
-            <i class="ph ph-qr-code"></i> Gerar Ensaio + PIX
-          </button>
-          <button type="button" class="btn btn-whatsapp" id="btn-whatsapp">
-            <i class="ph ph-whatsapp-logo"></i> Falar com Suporte
-          </button>
-        </div>
-
-        <p
-          style="text-align:center;color:var(--muted);font-size:.78rem;margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:.35rem;">
-          <i class="ph ph-lock-key" style="color:var(--primary)"></i> Pagamento 100% seguro · Entrega automática
-        </p>
-      </form>
-
-      <!-- PIX AREA -->
-      <div id="pix-area">
-        <h3>Etapa Final — Pague com PIX</h3>
-        <p style="margin-bottom:0.5rem">Escaneie o QR Code ou copie o código abaixo.</p>
-        <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
-          <p style="color: var(--primary); margin:0; font-size: 0.9rem;">
-            <i class="ph ph-check-circle"></i> Após o pagamento, você pode fechar esta página. Suas fotos serão
-            entregues no seu <strong>E-mail</strong> em minutos!
-          </p>
-        </div>
-
-        <img id="pix-qr" src="" alt="QR Code PIX">
-
-        <div class="pix-copy-row">
-          <input type="text" id="pix-copia-cola" readonly placeholder="Aguardando código PIX...">
-          <button id="btn-copiar-pix" type="button">
-            <i class="ph ph-copy"></i> Copiar
-          </button>
-        </div>
-        <p class="pix-note"><i class="ph ph-clock" style="color:var(--primary)"></i> O PIX expira em 30 minutos</p>
-      </div>
-
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p><i class="ph ph-sparkle"></i> <strong style="color:var(--primary)">LensAI</strong> &copy; 2024 · Ensaios
-      fotográficos com Inteligência Artificial</p>
-    <p style="margin-top:.5rem;"><a href="#">Política de Privacidade</a> · <a href="#">Termos de Uso</a></p>
-  </footer>
+    <!-- GUTO TRIGGER MODAL -->
+    <div id="guto-trigger-modal"
+        class="fixed inset-0 z-[105] hidden items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div class="glass-panel p-8 rounded-3xl max-w-sm w-full text-center border border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.2)]">
+            <h3 class="text-2xl serif italic mb-2 text-yellow-500">⚠️ Evento Surpresa</h3>
+            <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                Você chegou ao final do álbum e acordou o Guto! Ele está solto pelo sistema. Clique no botão abaixo e seja rápida para capturá-lo nas fotos!
+            </p>
+            <button onclick="startGutoMinigame()"
+                class="w-full py-3 rounded-full bg-yellow-500 text-black font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform animate-pulse">
+                Começar Captura
+            </button>
+        </div>
+    </div>
 
-  <script>
-    (function () {
-      const WEBHOOK_URL = 'http://localhost:5678/webhook-test/comprar-web';
-      const WHATSAPP_NUMBER = '5511999999999';
-      const MAX_SIZE_MB = 2;
+    <!-- GUTO MODAL -->
+    <div id="guto-modal"
+        class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/90 backdrop-blur-md px-4">
+        <div
+            class="glass-panel p-6 rounded-3xl max-w-sm w-full text-center border border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.2)]">
+            <h3 class="text-2xl serif italic mb-4 text-yellow-500">Guto Capturado! 🐒</h3>
+            <img src="https://i.ibb.co/3ygzHhQR/image.png"
+                class="w-full rounded-xl mb-4 border border-white/10 shadow-lg object-cover" alt="Cesta do Guto">
+            <p class="text-gray-200 text-sm md:text-base mb-6 leading-relaxed italic">
+                "Sempre que sentir saudade e eu não estiver perto abrace o Guto, nós estamos conectados."
+            </p>
+            <button onclick="closeGutoModal()"
+                class="w-full py-4 rounded-full bg-yellow-500 text-black font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform">Retirar
+                Recompensa</button>
+        </div>
+    </div>
 
-      const fotoInput = document.getElementById('foto-upload');
-      const preview = document.getElementById('upload-preview');
-      const fileInfo = document.getElementById('file-info');
-      const temaSelect = document.getElementById('tema-select');
-      const nomeInput = document.getElementById('nome-input');
-      const emailInput = document.getElementById('email-input');
-      const whatsappInput = document.getElementById('whatsapp-input');
-      const overlay = document.getElementById('loading-overlay');
-      const btnRow = document.getElementById('btn-row');
-      const pixArea = document.getElementById('pix-area');
-      const pixQr = document.getElementById('pix-qr');
-      const pixCopiaCola = document.getElementById('pix-copia-cola');
-      const btnCopiar = document.getElementById('btn-copiar-pix');
-      const scannerLaser = document.getElementById('scanner-laser');
+    <!-- Top Banner -->
+    <div
+        class="sticky top-0 w-full z-50 backdrop-blur-md bg-black/60 border-b border-red-900/30 py-4 text-center shadow-lg">
+        <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-red-400 font-bold animate-pulse">❤️ CONEXÃO ESTABELECIDA ❤️</p>
+    </div>
 
-      // ── Prévia da imagem ──
-      fotoInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (!file) {
-          scannerLaser.classList.remove('active');
-          return;
-        }
-        if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-          alert('A imagem deve ter no máximo 2MB. Por favor, escolha uma menor.');
-          this.value = '';
-          preview.style.display = 'none';
-          fileInfo.textContent = '';
-          scannerLaser.classList.remove('active');
-          return;
-        }
-        fileInfo.textContent = `Arquivo: ${file.name} (${(file.size / 1024).toFixed(0)}KB)`;
-        const reader = new FileReader();
-        reader.onload = e => { 
-          preview.src = e.target.result; 
-          preview.style.display = 'block';
-          scannerLaser.classList.add('active'); 
-        };
-        reader.readAsDataURL(file);
-      });
+    <main class="w-full max-w-4xl mx-auto flex flex-col items-center pb-32">
 
-      // ── Campo Custom (Tema Livre) ──
-      const customTemaGroup = document.getElementById('custom-tema-group');
-      const customTemaInput = document.getElementById('tema-custom-input');
-      const themeOptions = document.querySelectorAll('.theme-option');
-      const hiddenTemaInput = document.getElementById('tema-select');
+        <!-- SECTION 1: INÍCIO + BEIJO + SPOTIFY + FOTOS -->
+        <section id="sec-1" class="w-full min-h-screen flex flex-col justify-center items-center p-6 section-unlocked">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 text-center w-full max-w-2xl">
+                <p class="text-[10px] uppercase tracking-widest text-red-400 mb-2 font-bold border-b border-red-900/30 pb-2 inline-block">Feito com muito trabalho, carinho e amor</p>
+                <p class="text-xs text-gray-400 mb-6 italic">Objetivo: Entre na vibe, se divirta, libere recompensas e desbloqueie memórias.</p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-red-500 serif italic">Para Gisele</h1>
 
-      themeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-          // Remove selected class from all
-          themeOptions.forEach(opt => opt.classList.remove('selected'));
-          // Add to clicked
-          this.classList.add('selected');
-          
-          const value = this.getAttribute('data-value');
-          hiddenTemaInput.value = value;
-          
-          if (value === 'Outro') {
-            customTemaGroup.style.display = 'block';
-            customTemaInput.required = true;
-            customTemaInput.focus();
-          } else {
-            customTemaGroup.style.display = 'none';
-            customTemaInput.required = false;
-            customTemaInput.value = '';
-          }
-        });
-      });
+                <div id="q1-box">
+                    <p class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light">
+                        Preparei algo especial para hoje. Para acessar o sistema mais romântico do mundo, responda à
+                        pergunta de segurança. Vamos aos fatos irrevogáveis.
+                    </p>
+                    <h3 class="text-xl md:text-2xl text-white mb-6 font-light">Quem ama mais?</h3>
+                    <div class="flex flex-col gap-4">
+                        <button onclick="correctQ1()"
+                            class="w-full bg-black/40 border border-gray-600/50 text-gray-300 py-4 rounded-xl hover:bg-white/5 transition-colors text-sm tracking-widest uppercase shadow-md">
+                            A) Gustavo
+                        </button>
+                        <button onclick="wrongQ1()"
+                            class="w-full bg-black/40 border border-gray-600/50 text-gray-300 py-4 rounded-xl hover:bg-white/5 transition-colors text-sm tracking-widest uppercase shadow-md">
+                            B) Gisele
+                        </button>
+                    </div>
+                </div>
 
-      // ── Validação ──
-      function validate() {
-        const file = fotoInput.files[0];
-        const tema = hiddenTemaInput.value;
-        const nome = nomeInput.value.trim();
-        const email = emailInput.value.trim();
+                <!-- Story Box: Hidden until Q1 is answered correctly -->
+                <div id="story-1-box" class="hidden flex-col items-center w-full mt-4 animate-[fadeIn_1s_ease-in-out]">
+                    <p
+                        class="text-green-400 text-sm tracking-widest mb-6 uppercase border border-green-500/30 px-4 py-1 rounded-full">
+                        Acesso Liberado</p>
 
-        if (!file) { alert('Por favor, envie uma foto do seu rosto.'); return false; }
-        if (!tema) { alert('Por favor, selecione o tema do ensaio.'); return false; }
-        if (tema === 'Outro' && !customTemaInput.value.trim()) {
-          alert('Por favor, descreva o cenário que você deseja para o seu ensaio!'); return false;
-        }
-        if (!nome) { alert('Por favor, informe seu Nome.'); return false; }
-        if (!email) { alert('Por favor, informe seu E-mail para receber as fotos.'); return false; }
-        return true;
-      }
+                    <p class="text-gray-300 mb-4 text-sm font-light">Você me conhece... tudo fica mais divertido com uma
+                        trilha sonora. Dê o play pra entrar no clima!</p>
 
-      function toBase64(file) {
-        return new Promise((res, rej) => {
-          const r = new FileReader();
-          r.onload = () => res(r.result.split(',')[1]);
-          r.onerror = rej;
-          r.readAsDataURL(file);
-        });
-      }
+                    <!-- Spotify Embed -->
+                    <div class="w-full rounded-2xl overflow-hidden shadow-lg border border-red-900/20 mb-8 bg-black">
+                        <iframe
+                            src="https://open.spotify.com/embed/track/00j16DuIL1HPHjjLMNcYX0?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy"></iframe>
+                    </div>
 
-      // ── Exibe área PIX ──
-      function showPix(codigoPix) {
-        pixCopiaCola.value = codigoPix;
-        pixQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(codigoPix)}`;
-        btnRow.style.display = 'none';
-        pixArea.style.display = 'block';
-        pixArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+                    <!-- Photo Carousel -->
+                    <div
+                        class="relative w-full max-w-[500px] aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black mb-6">
+                        <img class="carousel-img active w-full h-full object-cover object-center"
+                            src="https://i.ibb.co/gkGnKHP/5-ECDFA31-5-D29-48-FD-A200-84-C770-C58996.jpg">
+                        <img class="carousel-img w-full h-full object-cover object-center"
+                            src="https://i.ibb.co/B5ckB3R3/1-E0-DFE08-CBC9-4-BD6-A301-28-EDC915-E43-F.jpg">
+                        <img class="carousel-img w-full h-full object-cover object-center"
+                            src="https://i.ibb.co/d0jC1HgH/D093743-C-03-F2-4069-915-F-98370-F6-F8956.jpg">
+                        <img class="carousel-img w-full h-full object-cover object-center"
+                            src="https://i.ibb.co/hRNwT4FD/C-pia-de-5865-B61-F-63-C5-4-B52-AC3-F-5-FCCF0-CBA14-F.jpg">
 
-      // ── BOTÃO A: Gerar Ensaio + PIX ──
-      document.getElementById('btn-web').addEventListener('click', async () => {
-        if (!validate()) return;
+                        <!-- Overlay Text -->
+                        <div
+                            class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 to-transparent pt-12 pb-6 px-6 text-center">
+                            <p id="carousel-text"
+                                class="text-white text-sm md:text-base font-light italic drop-shadow-md">Nossos momentos
+                                juntos têm sido incríveis.</p>
+                        </div>
+                    </div>
 
-        const file = fotoInput.files[0];
-        const tema = hiddenTemaInput.value;
-        const nome = nomeInput.value.trim();
-        const email = emailInput.value.trim();
-        const wpp = whatsappInput.value.trim();
+                    <div class="flex gap-4 mb-8">
+                        <button onclick="prevImg()"
+                            class="px-6 py-2 rounded-full border border-red-500/50 text-red-400 hover:bg-red-500/10 transition-colors text-sm">&lt;
+                            Anterior</button>
+                        <button onclick="nextImg()"
+                            class="px-6 py-2 rounded-full border border-red-500/50 text-red-400 hover:bg-red-500/10 transition-colors text-sm">Próxima
+                            &gt;</button>
+                    </div>
 
-        overlay.classList.add('active');
+                    <button id="btn-etapa2" onclick="unlockSection(2)"
+                        class="w-full py-4 rounded-full btn-romantic text-white font-bold tracking-widest uppercase text-sm mt-8 hidden">
+                        Ir para a Etapa 2
+                    </button>
+                </div>
+            </div>
+        </section>
 
-        try {
-          const base64 = await toBase64(file);
+        <!-- SECTION 2: QUEM AMA MAIS & VÍDEO -->
+        <section id="sec-2" class="w-full min-h-screen flex flex-col justify-center items-center p-6 section-locked">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 w-full max-w-2xl text-center">
+                <h2 class="text-3xl text-red-400 mb-2 serif italic">Etapa 2</h2>
+                <p class="text-gray-400 text-sm mb-8">E o motivo é bem simples...</p>
 
-          const payload = {
-            foto_base64: base64,
-            tema: tema,
-            tema_custom: tema === 'Outro' ? customTemaInput.value.trim() : '',
-            nome: nome,
-            email: email,
-            whatsapp: wpp,
-            mime_type: file.type,
-            source: 'web',
-            timestamp: new Date().toISOString()
-          };
+                <div id="q2-box">
+                    <label class="block text-sm text-gray-300 mb-4 tracking-widest uppercase font-bold">O que eu mais
+                        gosto em você?</label>
+                    <input type="text" id="q2-input"
+                        class="w-full bg-black/50 border border-red-900/50 rounded-xl px-4 py-4 text-center text-white text-lg focus:outline-none focus:border-red-500 transition-colors mb-2 placeholder-gray-700"
+                        placeholder="Digite aqui...">
+                    <p class="text-[10px] text-gray-500 mb-6 uppercase tracking-widest">Dica: Tem a ver com a sua boca
+                    </p>
+                    <button onclick="checkQ2()"
+                        class="w-full py-4 rounded-xl btn-romantic text-white font-bold tracking-widest uppercase text-sm">
+                        Desbloquear
+                    </button>
+                </div>
 
-          const resp = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Webhook-Token': 'SEU_TOKEN_SECRETO'
-            },
-            body: JSON.stringify(payload)
-          });
+                <div id="story-2-box" class="hidden flex-col items-center w-full mt-4 animate-[fadeIn_1s_ease-in-out]">
+                    <div class="w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black mb-6">
+                        <img src="https://i.ibb.co/4Rzm2BzN/sorriso.gif" class="w-full h-auto object-cover" alt="Gif de sorriso">
+                    </div>
 
-          overlay.classList.remove('active');
+                    <div class="text-left w-full border-l-2 border-red-500 pl-4 py-2 mb-8">
+                        <p class="text-gray-200 text-sm md:text-base leading-relaxed italic font-light">
+                            "A gente sabe que não é 100% igual, e que bom, porque é exatamente isso que deixa tudo
+                            melhor. Mas sabe o que realmente me encanta no vídeo acima? <span
+                                class="text-red-400 font-semibold">O seu sorriso.</span> Ele tem o poder de melhorar o
+                            meu dia inteiro. Adoro o seu humor, você é linda demais e a nossa dinâmica funciona muito
+                            bem. Você é o amor da minha vida, simples assim."
+                        </p>
+                    </div>
 
-          if (resp.ok) {
-            const data = await resp.json();
-            if (data && data.pix_copia_e_cola) {
-              showPix(data.pix_copia_e_cola);
+                    <button onclick="unlockSection(3)"
+                        class="w-full py-4 rounded-full btn-romantic text-white font-bold tracking-widest uppercase text-sm">
+                        Resgatar Benefícios
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: VALES COM AGENDA -->
+        <section id="sec-3" class="w-full min-h-screen flex flex-col justify-center items-center p-6 section-locked">
+            <div class="w-full max-w-4xl text-center">
+                <h2 class="text-3xl md:text-4xl text-red-500 mb-4 serif italic">Pacote de Experiências</h2>
+                <p class="text-gray-300 text-sm mb-10 max-w-lg mx-auto">Regra: Válido para usar na data que você quiser.
+                    Escolha a experiência abaixo para combinarmos o dia!</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <div id="card-cinema"
+                        onclick="openVoucherModal('Vale Cinema', 'Pipoca gigante + filme à sua escolha', 'cinema')"
+                        class="glass-panel p-6 rounded-2xl hover:bg-red-900/20 hover:border-red-500/50 transition-all cursor-pointer flex flex-col items-center group">
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🍿</div>
+                        <h3 class="text-lg font-bold text-white mb-1 uppercase tracking-widest">Vale Cinema</h3>
+                        <p class="text-xs text-gray-400">Pipoca gigante + filme à sua escolha</p>
+                        <p
+                            class="badge-text text-[10px] text-red-400 mt-3 uppercase font-bold tracking-widest bg-red-900/30 px-3 py-1 rounded border border-red-500/30">
+                            Agendar Data</p>
+                    </div>
+
+                    <div id="card-natureza"
+                        onclick="openVoucherModal('Vale Natureza', 'Desconectar e curtir o ar livre', 'natureza')"
+                        class="glass-panel p-6 rounded-2xl hover:bg-red-900/20 hover:border-red-500/50 transition-all cursor-pointer flex flex-col items-center group">
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🌲</div>
+                        <h3 class="text-lg font-bold text-white mb-1 uppercase tracking-widest">Vale Natureza</h3>
+                        <p class="text-xs text-gray-400">Desconectar e curtir o ar livre</p>
+                        <p
+                            class="badge-text text-[10px] text-red-400 mt-3 uppercase font-bold tracking-widest bg-red-900/30 px-3 py-1 rounded border border-red-500/30">
+                            Agendar Data</p>
+                    </div>
+
+                    <div id="card-motel"
+                        onclick="openVoucherModal('Vale Motel', 'Uma noite especial sem hora pra acabar', 'motel')"
+                        class="glass-panel p-6 rounded-2xl hover:bg-red-900/20 hover:border-red-500/50 transition-all cursor-pointer flex flex-col items-center group">
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🔥</div>
+                        <h3 class="text-lg font-bold text-white mb-1 uppercase tracking-widest">Vale Motel</h3>
+                        <p class="text-xs text-gray-400">Uma noite especial sem hora pra acabar</p>
+                        <p
+                            class="badge-text text-[10px] text-red-400 mt-3 uppercase font-bold tracking-widest bg-red-900/30 px-3 py-1 rounded border border-red-500/30">
+                            Agendar Data</p>
+                    </div>
+
+                    <div id="card-restaurante"
+                        onclick="openVoucherModal('Vale Restaurante', 'O que você quiser comer, eu pago.', 'restaurante')"
+                        class="glass-panel p-6 rounded-2xl hover:bg-red-900/20 hover:border-red-500/50 transition-all cursor-pointer flex flex-col items-center group sm:col-start-1 lg:col-start-auto">
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🍷</div>
+                        <h3 class="text-lg font-bold text-white mb-1 uppercase tracking-widest">Vale Restaurante</h3>
+                        <p class="text-xs text-gray-400">O que você quiser comer, eu pago.</p>
+                        <p
+                            class="badge-text text-[10px] text-red-400 mt-3 uppercase font-bold tracking-widest bg-red-900/30 px-3 py-1 rounded border border-red-500/30">
+                            Agendar Data</p>
+                    </div>
+
+                    <div id="card-preguica"
+                        onclick="openVoucherModal('Vale Preguiça', 'Cozinho, peço delivery, e você descansa.', 'preguica')"
+                        class="glass-panel p-6 rounded-2xl hover:bg-red-900/20 hover:border-red-500/50 transition-all cursor-pointer flex flex-col items-center group sm:col-start-2 lg:col-start-auto">
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🛋️</div>
+                        <h3 class="text-lg font-bold text-white mb-1 uppercase tracking-widest">Vale Preguiça</h3>
+                        <p class="text-xs text-gray-400">Cozinho, peço delivery, e você descansa.</p>
+                        <p
+                            class="badge-text text-[10px] text-red-400 mt-3 uppercase font-bold tracking-widest bg-red-900/30 px-3 py-1 rounded border border-red-500/30">
+                            Agendar Data</p>
+                    </div>
+                </div>
+
+
+                <button onclick="unlockSection(4)"
+                    class="w-full max-w-md mx-auto py-4 rounded-full btn-romantic text-white font-bold tracking-widest uppercase text-sm block">
+                    Ir para a Última Etapa
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PIN & FUTURO & CAIXINHA -->
+        <section id="sec-4" class="w-full min-h-screen flex flex-col justify-center items-center p-6 section-locked">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 w-full max-w-2xl text-center">
+                <h2 class="text-3xl text-red-400 mb-2 serif italic">Etapa Final</h2>
+                <p class="text-gray-400 text-sm mb-8">Insira o código PIN. <br><span
+                        class="text-red-500/80 text-xs">(Dica: Data de namoro)</span>
+                </p>
+
+                <div id="pin-box">
+                    <div class="flex justify-center gap-3 mb-6">
+                        <input type="text" id="pin-input" maxlength="5"
+                            class="w-48 bg-black/50 border border-red-900/50 rounded-xl px-4 py-4 text-center text-white text-3xl font-mono tracking-[0.5em] focus:outline-none focus:border-red-500 transition-colors">
+                    </div>
+                    <button onclick="checkPIN()"
+                        class="w-full py-4 rounded-xl btn-romantic text-white font-bold tracking-widest uppercase text-sm">
+                        Desbloquear
+                    </button>
+                </div>
+
+                <!-- Bônus Box -->
+                <div id="bonus-box" class="hidden flex-col items-center w-full mt-4 animate-[fadeIn_1s_ease-in-out]">
+                    <p
+                        class="text-green-400 text-sm tracking-widest mb-6 uppercase border border-green-500/30 px-4 py-1 rounded-full">
+                        Código Aceito</p>
+                    <p class="text-gray-200 text-sm md:text-base leading-relaxed italic mb-8 font-light">
+                        Você acabou de ganhar um bônus especial: o poder de dar uma olhadinha rápida no nosso futuro
+                        juntos. Pronta?
+                    </p>
+                    <button onclick="showFuture()"
+                        class="w-full py-4 rounded-full border border-red-500 text-red-400 hover:bg-red-500/10 font-bold tracking-widest uppercase text-sm mb-4 transition-colors">
+                        Ver o Futuro
+                    </button>
+                </div>
+
+                <!-- Final Message + Future Photos -->
+                <div id="final-box" class="hidden flex-col items-center w-full mt-8 animate-[fadeIn_1s_ease-in-out]">
+
+                    <!-- Imagens do Futuro IA -->
+                    <div class="flex flex-col sm:flex-row gap-4 mb-10 w-full justify-center">
+                        <img src="https://i.ibb.co/QFnshzJJ/image.png"
+                            class="w-full sm:w-1/2 object-cover rounded-2xl border border-white/10 shadow-lg aspect-square"
+                            alt="Casamento">
+                        <img src="https://i.ibb.co/JWjwFKm7/image.png"
+                            class="w-full sm:w-1/2 object-cover rounded-2xl border border-white/10 shadow-lg aspect-square"
+                            alt="Nós velhinhos">
+                    </div>
+
+                    <div class="text-red-500 mb-6 mt-4">
+                        <svg class="w-16 h-16 mx-auto animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+
+                    <p
+                        class="text-lg md:text-xl text-gray-200 mb-6 font-light leading-relaxed italic border-b border-white/10 pb-8">
+                        Essa data não foi o dia que oficializamos, mas é importante pra mim. Foi quando a gente foi pra
+                        Bonfim e ali eu percebi que estava <span class="text-red-400 font-bold">completamente apaixonado
+                            por você</span>.<br><br>
+                        A promessa de tudo que a gente ainda vai construir juntos tá guardada bem aí do seu
+                        lado.<br><br>
+                        <span class="text-white font-bold text-xl block mt-4 serif">Pode abrir a caixinha agora.
+                            💍</span>
+                    </p>
+
+                    <p class="text-red-500 text-sm tracking-[0.3em] font-bold mt-4 uppercase">Feliz Dia dos Namorados
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // MODAL SYSTEM LOGIC
+        function showModal(title, text, type) {
+            const modal = document.getElementById('modal');
+            const mTitle = document.getElementById('modal-title');
+            const mText = document.getElementById('modal-text');
+            const mContent = document.getElementById('modal-content');
+
+            mTitle.innerText = title;
+            mText.innerText = text;
+
+            if (type === 'error') {
+                mTitle.classList.remove('text-green-400');
+                mTitle.classList.add('text-red-500');
             } else {
-              alert('Pedido recebido! Em breve entraremos em contato pelo e-mail e whatsapp.');
+                mTitle.classList.remove('text-red-500');
+                mTitle.classList.add('text-green-400');
             }
-          } else {
-            alert(`Erro ao enviar (${resp.status}). Tente novamente ou chame no suporte.`);
-          }
-        } catch (err) {
-          overlay.classList.remove('active');
-          console.error(err);
-          alert('Não foi possivel conectar ao servidor. Chame no suporte ou verifique sua conexao.');
-        }
-      });
 
-      // ── BOTÃO Copiar PIX ──
-      btnCopiar.addEventListener('click', () => {
-        navigator.clipboard.writeText(pixCopiaCola.value).then(() => {
-          btnCopiar.classList.add('copied');
-          btnCopiar.innerHTML = '<i class="ph ph-check"></i> Copiado!';
-          setTimeout(() => {
-            btnCopiar.classList.remove('copied');
-            btnCopiar.innerHTML = '<i class="ph ph-copy"></i> Copiar';
-          }, 2500);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            setTimeout(() => {
+                mContent.classList.remove('scale-95', 'opacity-0');
+                mContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const mContent = document.getElementById('modal-content');
+
+            mContent.classList.remove('scale-100', 'opacity-100');
+            mContent.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // BACKGROUND HEARTS GENERATOR
+        const container = document.getElementById('hearts-container');
+        const heartSVG = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+        for (let i = 0; i < 15; i++) {
+            let el = document.createElement('div');
+            el.className = 'floating-heart';
+            el.innerHTML = heartSVG;
+            el.style.width = Math.random() * 30 + 10 + 'px';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = Math.random() * 10 + 10 + 's';
+            el.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(el);
+        }
+
+        // TIME COUNTER REMOVED - USING STATIC BANNER
+
+        // SECTION UNLOCKER
+        function unlockSection(num) {
+            const sec = document.getElementById(`sec-${num}`);
+            if (sec) {
+                sec.classList.remove('section-locked');
+                sec.classList.add('section-unlocked');
+                setTimeout(() => {
+                    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+
+        // SECTION 1 LOGIC (Q1)
+        function wrongQ1() {
+            showModal('Incorreto!', 'Você errou. Eu te amo o infinito e muito mais do que você!', 'error');
+        }
+        function correctQ1() {
+            showModal('Acesso Liberado!', 'Você é esperta. Eu sempre vou te amar mais! Dê play na música que apareceu.', 'success');
+            document.getElementById('q1-box').style.display = 'none';
+            document.getElementById('story-1-box').classList.remove('hidden');
+            document.getElementById('story-1-box').classList.add('flex');
+        }
+
+        // CAROUSEL LOGIC
+        const captions = [
+            "Você é a mulher mais linda do mundo. E cada dia ao seu lado é um presente.",
+            "Nosso primeiro abraço, as nossas risadas... tudo encaixa perfeito.",
+            "Temos os mesmos sonhos e a mesma vontade de fazer dar certo.",
+            "Você me faz tão bem. Eu amo cada pedacinho de você."
+        ];
+        let currentImgIndex = 0;
+        const imgs = document.querySelectorAll('.carousel-img');
+        const textEl = document.getElementById('carousel-text');
+
+        function updateCarousel() {
+            imgs.forEach((img, i) => {
+                if (i === currentImgIndex) img.classList.add('active');
+                else img.classList.remove('active');
+            });
+            textEl.innerText = captions[currentImgIndex];
+        }
+
+        let gutoTriggered = false;
+        function nextImg() {
+            currentImgIndex = (currentImgIndex + 1) % imgs.length;
+            updateCarousel();
+            checkLastImage();
+        }
+        function prevImg() {
+            currentImgIndex = (currentImgIndex - 1 + imgs.length) % imgs.length;
+            updateCarousel();
+            checkLastImage();
+        }
+        function checkLastImage() {
+            if (currentImgIndex === imgs.length - 1 && !gutoTriggered) {
+                gutoTriggered = true;
+                setTimeout(() => {
+                    document.getElementById('guto-trigger-modal').classList.remove('hidden');
+                    document.getElementById('guto-trigger-modal').classList.add('flex');
+                }, 600);
+            }
+        }
+        updateCarousel();
+
+        function startGutoMinigame() {
+            document.getElementById('guto-trigger-modal').classList.add('hidden');
+            document.getElementById('guto-trigger-modal').classList.remove('flex');
+            spawnGuto();
+        }
+
+
+        // SECTION 2 LOGIC (Q2)
+        function checkQ2() {
+            const val = document.getElementById('q2-input').value.toLowerCase().trim();
+
+            if (val.includes('sorriso')) {
+                showModal('Exatamente!', 'É isso mesmo. O seu sorriso melhora o meu dia inteiro.', 'success');
+                document.getElementById('q2-box').style.display = 'none';
+                document.getElementById('story-2-box').classList.remove('hidden');
+                document.getElementById('story-2-box').classList.add('flex');
+            } else {
+                showModal('Erro de Sistema!', 'Pensa um pouco mais! Leia a dica.', 'error');
+            }
+        }
+        document.getElementById('q2-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkQ2();
         });
-      });
 
-      // ── BOTÃO B: Suporte WhatsApp ──
-      document.getElementById('btn-whatsapp').addEventListener('click', () => {
-        const msg = encodeURIComponent(`Olá! Estou no site e preciso de ajuda com meu ensaio com IA.`);
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
-      });
+        // SECTION 4 LOGIC (PIN & FUTURE)
+        function checkPIN() {
+            const val = document.getElementById('pin-input').value.trim();
 
-      // ── Init High-End Libs ──
-      AOS.init({ once: true, duration: 800, offset: 50 });
-
-      // ── Auto Scroll Portfolio ──
-      const portfolioWrapper = document.querySelector('.portfolio-grid-wrapper');
-      if (portfolioWrapper) {
-        let isPaused = false;
-        let scrollSpeed = 1; // Pixels per frame
-        
-        portfolioWrapper.addEventListener('mouseenter', () => isPaused = true);
-        portfolioWrapper.addEventListener('mouseleave', () => isPaused = false);
-        portfolioWrapper.addEventListener('touchstart', () => isPaused = true);
-        portfolioWrapper.addEventListener('touchend', () => { setTimeout(() => isPaused = false, 1500) });
-
-        function autoScroll() {
-          if (!isPaused) {
-            portfolioWrapper.scrollLeft += scrollSpeed;
-            // Se chegou no fim (ou quase no fim por conta de frações), reseta para o começo
-            if (portfolioWrapper.scrollLeft >= (portfolioWrapper.scrollWidth - portfolioWrapper.clientWidth - 2)) {
-              portfolioWrapper.scrollLeft = 0;
+            if (val === '0111' || val === '01/11') {
+                showModal('Código Correto!', 'Você encontrou a data mais importante.', 'success');
+                document.getElementById('pin-box').style.display = 'none';
+                document.getElementById('bonus-box').classList.remove('hidden');
+                document.getElementById('bonus-box').classList.add('flex');
+            } else {
+                showModal('Acesso Negado!', 'Código Incorreto. Pense no nosso início e tente de novo.', 'error');
             }
-          }
-          requestAnimationFrame(autoScroll);
         }
-        requestAnimationFrame(autoScroll);
-      }
+        document.getElementById('pin-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPIN();
+        });
 
-    })();
-  </script>
+        // GUTO EASTER EGG LOGIC
+        function spawnGuto() {
+            const monkey = document.createElement('div');
+            monkey.innerText = '🐒';
+            monkey.style.position = 'absolute';
+            monkey.style.fontSize = '4rem';
+            monkey.style.zIndex = '100';
+            monkey.style.cursor = 'pointer';
+            monkey.style.transition = 'all 0.4s ease-in-out';
+            monkey.style.userSelect = 'none';
+
+            monkey.onclick = function() {
+                document.getElementById('guto-modal').classList.remove('hidden');
+                document.getElementById('guto-modal').classList.add('flex');
+                monkey.remove();
+                document.getElementById('btn-etapa2').classList.remove('hidden');
+            };
+
+            const container = document.getElementById('story-1-box');
+            container.style.position = 'relative';
+            container.appendChild(monkey);
+
+            function jump() {
+                if(!document.body.contains(monkey)) return;
+                const boxWidth = container.clientWidth;
+                const x = Math.random() * (boxWidth - 60);
+                const y = Math.random() * 350 + 20; 
+                monkey.style.left = `${x}px`;
+                monkey.style.top = `${y}px`;
+                setTimeout(jump, 700);
+            }
+            
+            monkey.style.left = '50%';
+            monkey.style.top = '100px';
+            setTimeout(jump, 100);
+        }
+
+        function closeGutoModal() {
+            document.getElementById('guto-modal').classList.add('hidden');
+            document.getElementById('guto-modal').classList.remove('flex');
+        }
+
+        function showFuture() {
+            document.getElementById('bonus-box').style.display = 'none';
+            document.getElementById('final-box').classList.remove('hidden');
+            document.getElementById('final-box').classList.add('flex');
+            setTimeout(() => {
+                document.getElementById('final-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // WHATSAPP VOUCHER LOGIC & STATE
+        const meunumero = "5511999999999"; // SUBSTITUA PELO SEU NUMERO DE WHATSAPP (Apenas numeros com DDD)
+
+        let currentVoucherId = '';
+        let currentVoucherName = '';
+
+        function checkUsedVouchers() {
+            const vouchers = ['cinema', 'natureza', 'motel', 'restaurante', 'preguica'];
+            vouchers.forEach(v => {
+                if (localStorage.getItem('vale_' + v) === 'true') {
+                    disableVoucherCard(v);
+                }
+            });
+        }
+
+        function disableVoucherCard(id) {
+            const card = document.getElementById('card-' + id);
+            if (card) {
+                card.onclick = null;
+                card.classList.add('opacity-50', 'grayscale');
+                card.classList.remove('hover:bg-red-900/20', 'hover:border-red-500/50', 'cursor-pointer');
+
+                const badge = card.querySelector('.badge-text');
+                if (badge) {
+                    badge.innerText = "JÁ RESGATADO";
+                    badge.classList.replace('text-red-400', 'text-gray-500');
+                    badge.classList.replace('bg-red-900/30', 'bg-gray-800/80');
+                    badge.classList.replace('border-red-500/30', 'border-gray-500/30');
+                }
+            }
+        }
+
+        function openVoucherModal(name, desc, id) {
+            if (localStorage.getItem('vale_' + id) === 'true') return;
+
+            currentVoucherId = id;
+            currentVoucherName = name;
+
+            document.getElementById('v-title').innerText = name;
+            document.getElementById('v-desc').innerText = desc;
+            document.getElementById('v-date').value = '';
+
+            const modal = document.getElementById('voucher-modal');
+            const mContent = document.getElementById('voucher-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                mContent.classList.remove('scale-95', 'opacity-0');
+                mContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeVoucherModal() {
+            const modal = document.getElementById('voucher-modal');
+            const mContent = document.getElementById('voucher-content');
+            mContent.classList.remove('scale-100', 'opacity-100');
+            mContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function confirmVoucher() {
+            const dateVal = document.getElementById('v-date').value;
+            if (!dateVal) {
+                showModal('Atenção', 'Por favor, escolha uma data para o vale!', 'error');
+                return;
+            }
+
+            const [y, m, d] = dateVal.split('-');
+            const formattedDate = `${d}/${m}/${y}`;
+
+            localStorage.setItem('vale_' + currentVoucherId, 'true');
+            disableVoucherCard(currentVoucherId);
+            closeVoucherModal();
+
+            const msg = `Oie amor! Estou resgatando o meu ${currentVoucherName} para o dia ${formattedDate}! Prepara tudo! ❤️`;
+            const encoded = encodeURIComponent(msg);
+            window.open(`https://wa.me/${meunumero}?text=${encoded}`, '_blank');
+        }
+
+        // Inicializar estado dos vales ao carregar
+        checkUsedVouchers();
+
+    </script>
 </body>
 
 </html>
