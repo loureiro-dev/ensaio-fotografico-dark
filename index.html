@@ -174,7 +174,8 @@
     }
     
     @media (max-width: 500px) {
-      .features-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; gap: 20px; }
+      .feature-card, .price-card, .testim-card { margin-left: 15px; margin-right: 15px; }
       .hero h1 { font-size: 2.2rem; }
       .section-title { font-size: 2rem; }
       .btn { width: 100%; padding: 18px 24px; }
@@ -191,8 +192,8 @@
         <img src="https://i.ibb.co/jZ54BcDB/72315d69-7528-469c-8a08-b693c428eae7.png" alt="Ensaio.AI Logo">
       </div>
       <div class="btn-wrapper">
-        <a href="#" onclick="redirectToWhatsApp('Olá, vim pelo site e quero fazer meus ensaios com IA!')" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.95rem;">
-          <i class="ph-bold ph-whatsapp-logo"></i> Fazer Orçamento
+        <a href="#" onclick="scrollToPricing(event)" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.95rem;">
+          <i class="ph-bold ph-caret-down"></i> Ver Planos
         </a>
       </div>
     </div>
@@ -203,8 +204,8 @@
       <span style="color: var(--primary); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px;"><i class="ph-fill ph-sparkle"></i> Inteligência Artificial</span>
       <h1>Você merece a sua melhor versão!</h1>
       <p>Transforme suas selfies em ensaios incríveis. Seja para o seu perfil corporativo, book de gestante, aniversário ou redes sociais. A magia acontece sem precisar de estúdio.</p>
-      <a href="#" onclick="redirectToWhatsApp('Olá, vim pelo site e quero fazer meus ensaios com IA!')" class="btn btn-primary">
-        Fazer Meu Ensaio Agora <i class="ph-bold ph-arrow-right"></i>
+      <a href="#" onclick="scrollToPricing(event)" class="btn btn-primary">
+        Ver Planos e Preços <i class="ph-bold ph-arrow-down"></i>
       </a>
       <div class="trust-badges">
         <span><i class="ph-fill ph-lock-key"></i> Pix Seguro</span>
@@ -322,7 +323,7 @@
   </section>
 
   <!-- Pricing Section -->
-  <section class="pricing-section py-16">
+  <section class="pricing-section py-16" id="planos">
     <div class="container">
       <div class="text-center mb-8">
         <h2 class="section-title">Escolha seu Pacote</h2>
@@ -372,8 +373,8 @@
     <div class="cta-box">
       <h2>Você merece a sua melhor versão!</h2>
       <p>Dê o próximo passo para transformar sua imagem. Clique no botão abaixo e faça seu pedido em menos de 2 minutos!</p>
-      <a href="#" onclick="redirectToWhatsApp('Olá, vim pelo site e quero garantir meu Ensaio Profissional agora!')" class="btn btn-white mt-4">
-        Solicitar Agora <i class="ph-bold ph-arrow-right"></i>
+      <a href="#" onclick="scrollToPricing(event)" class="btn btn-white mt-4">
+        Ver Planos Disponíveis <i class="ph-bold ph-arrow-up"></i>
       </a>
     </div>
   </section>
@@ -409,14 +410,19 @@
     </div>
   </footer>
 
-  <a href="#" onclick="redirectToWhatsApp('Olá, vim pelo site e quero fazer meus ensaios com IA!')" class="sticky-cta">
-    <i class="ph-fill ph-whatsapp-logo" style="font-size: 1.4rem;"></i> Fazer Meu Ensaio Agora
+  <a href="#" onclick="scrollToPricing(event)" class="sticky-cta">
+    <i class="ph-bold ph-caret-down" style="font-size: 1.4rem;"></i> Ver Planos
   </a>
 
   <script>
     const WA_NUMBERS = [
       "5511999999999" // TODO: Colocar seu número de teste aqui
     ];
+
+    function scrollToPricing(event) {
+      event.preventDefault();
+      document.getElementById('planos').scrollIntoView({ behavior: 'smooth' });
+    }
 
     function redirectToWhatsApp(message) {
       event.preventDefault();
